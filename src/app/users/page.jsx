@@ -1,3 +1,4 @@
+import { userDelId } from "../lib/actions";
 import { getUser } from "../lib/data";
 import TableCard from "../table/page";
 
@@ -11,7 +12,7 @@ const UsersPage = async() => {
         <div className="max-w-[80%] mx-auto my-10">
             <h1>User Management : {users.length} </h1>
             <div>
-                <TableCard users={users}></TableCard>
+                <TableCard users={users} deleteAction={userDelId}></TableCard>
             </div>
         </div>
     );
