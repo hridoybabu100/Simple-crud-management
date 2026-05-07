@@ -1,5 +1,5 @@
 import ModalUsers from "@/components/ModalUsers/ModalUsers";
-import { userDelId } from "../lib/actions";
+import { addUserdata, userDelId } from "../lib/actions";
 import { getUser } from "../lib/data";
 import TableCard from "../table/page";
 
@@ -14,7 +14,7 @@ const UsersPage = async() => {
             <div className="flex justify-between items-center py-10">
             <h1>User Management : {users.length} </h1>
             <div>
-                <ModalUsers></ModalUsers>
+                <ModalUsers userAction={addUserdata}></ModalUsers>
             </div>
 
             </div>
