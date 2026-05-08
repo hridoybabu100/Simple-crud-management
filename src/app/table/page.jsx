@@ -34,7 +34,9 @@ const TableCard = ({ users,deleteAction }) => {
                     </Link>
                     
                       {" "}
+                      <Link href={`/users/${user._id}/edit`}>
                       <Button variant="outline">Edit</Button>{" "}
+                      </Link>
                    
                
                       {" "}
@@ -62,7 +64,7 @@ const TableCard = ({ users,deleteAction }) => {
                                   Cancel
                                 </Button>
                                 <Button onClick={() => handledel(user._id)} slot="close" variant="danger">
-                                  Delete User
+                                  Confirm Delete User
                                 </Button>
                               </AlertDialog.Footer>
                             </AlertDialog.Dialog>
