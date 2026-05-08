@@ -1,30 +1,52 @@
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export const addUserdata = async (formData) => {
+  "use server";
+  const createuser = Object.fromEntries(formData.entries());
+
+  const res = await fetch("http://localhost:5000/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(createuser),
+  });
+
+  const adduser = await res.json();
+  // console.log("add user", adduser);
+
+  if (adduser.insertedId) {
+    revalidatePath("/users");
+  }
+  return adduser;
+};
 
 
-export const addUserdata = async(formData) => {
-    "use server"
-    const createuser = Object.fromEntries(formData.entries());
-
-    const res = await fetch("http://localhost:5000/users",{
-        method : "POST",
+export const userUpdated = async(formData, userId) => {
+    'use server';
+    const updatedUser = Object.fromEntries(formData.entries());
+    const res = await fetch(`http://localhost:5000/users/${userId}`,{
+        method : "PATCH",
         headers : {
             "Content-Type" : "application/json"
         },
-        body : JSON.stringify(createuser)
-    });
+        body : JSON.stringify(updatedUser)
+    })
+    const updatedNewUser = await res.json();
+    // console.log('UpdatedUser', updatedNewUser);
 
-    const adduser = await res.json();
-    // console.log("add user", adduser);
+    // return updatedNewUser
 
-    if ( adduser.insertedId){
+    if ( updatedNewUser.modifiedCount > 0){
         revalidatePath('/users')
+        redirect('/users')
     }
-    return adduser;
+
+    //Validated
     
-
-
-
 }
+
 
 export const userDelId = async (userId) => {
   "use server";
@@ -32,9 +54,8 @@ export const userDelId = async (userId) => {
     method: "DELETE",
   });
   const data = await res.json();
-  if( data.deletedCount > 0){
- revalidatePath('/users')
-}
-return data;
-
+  if (data.deletedCount > 0) {
+    revalidatePath("/users");
+  }
+  return data;
 };
